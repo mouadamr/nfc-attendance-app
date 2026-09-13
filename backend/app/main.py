@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import employees, cards
+from .routers import employees, cards, attendance
 
 app = FastAPI(
     title="NFC Attendance API",
@@ -19,6 +19,7 @@ app.add_middleware(
 
 app.include_router(employees.router)
 app.include_router(cards.router)
+app.include_router(attendance.router)
 
 
 @app.get("/")

@@ -9,7 +9,7 @@ from pydantic import BaseModel, EmailStr, ConfigDict
 class EmployeeCreate(BaseModel):
     full_name: str
     email: EmailStr
-    password: str  # plain password, only used at registration time
+    password: str
 
 
 class EmployeeLogin(BaseModel):
@@ -63,11 +63,12 @@ class ScheduleOut(BaseModel):
 
 # ---------- Attendance ----------
 
-class AttendanceLogCreate(BaseModel):
-    punch_type: str        # "in" or "out"
-    timestamp: datetime
-    source: str             # "card" or "phone_hce"
-    device_id: str
+class AttendancePunchRequest(BaseModel):
+    card_uid: str            # what the reader scanned
+    punch_type: str          # "in" or "out"
+    timestamp: datetime      # when it happened on the device
+    source: str              # "card" or "phone_hce"
+    device_id: str           # which reader recorded it
 
 
 class AttendanceLogOut(BaseModel):
