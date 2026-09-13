@@ -12,7 +12,6 @@ router = APIRouter(
 
 @router.post("/register", response_model=schemas.EmployeeOut, status_code=status.HTTP_201_CREATED)
 def register_employee(employee: schemas.EmployeeCreate, db: Session = Depends(get_db)):
-    # Check if email already exists
     existing = db.query(models.Employee).filter(models.Employee.email == employee.email).first()
     if existing:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
@@ -45,6 +44,5 @@ def login_employee(credentials: schemas.EmployeeLogin, db: Session = Depends(get
 
 
 @router.get("/me", response_model=schemas.EmployeeOut)
-def get_current_employee(db: Session = Depends(get_db), employee_id: str = Depends(auth.decode_access_token)):
-    # placeholder - we'll wire proper token-based auth dependency next step
-    pass
+def get_current_employee_info(current_employee: models.Employee = Depends(auth.get_current_employee)):
+    return current_employee

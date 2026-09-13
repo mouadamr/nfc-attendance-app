@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import employees
+from .routers import employees, cards
 
 app = FastAPI(
     title="NFC Attendance API",
@@ -9,8 +9,6 @@ app = FastAPI(
     version="0.1.0"
 )
 
-# Allows your Android app (and testing tools) to call this API
-# For now, wide open — we'll restrict this later once we know the app's real origin
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -20,6 +18,7 @@ app.add_middleware(
 )
 
 app.include_router(employees.router)
+app.include_router(cards.router)
 
 
 @app.get("/")
